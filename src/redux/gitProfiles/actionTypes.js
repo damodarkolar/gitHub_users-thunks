@@ -1,0 +1,5 @@
+export const GIT_USER_LOADING="GIT_USER_LOADING"
+export const GIT_USER_ERR="GIT_USER_ERR";
+export const GIT_USER_SUCCESS="GIT_USER_SUCCESS";
+
+
