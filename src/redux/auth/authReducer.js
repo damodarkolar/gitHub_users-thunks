@@ -1,4 +1,4 @@
-import { LOGIN_LOADING, LOGIN_SUCCESS, LOGIN_ERR, USER_PROFILE_LOADING, USER_PROFILE_SUCCESS, USER_PROFILE_ERR, USER_REGISTRATION_LOADING, USER_REGISTRATION_SUCCESS, USER_REGISTRATION_ERR }  from "./actiontypes";
+import { LOGIN_LOADING, LOGIN_SUCCESS, LOGIN_ERR, USER_PROFILE_LOADING, USER_PROFILE_SUCCESS, USER_PROFILE_ERR, USER_REGISTRATION_LOADING, USER_REGISTRATION_SUCCESS, USER_REGISTRATION_ERR, LOG_OUT }  from "./actiontypes";
 const initialState={
     loginLoading:false,
     loginErr:false,
@@ -68,6 +68,11 @@ export const authReducer=(store=initialState, action)=>{
                 userProfileLoading:false,
                 userProfileErr:false,
                 userProfile:action.payload
+            }
+        case LOG_OUT:
+            return{
+                ...store,
+                token:""
             }
             
     

@@ -12,8 +12,36 @@ import {
     Text,
     useColorModeValue,
   } from '@chakra-ui/react';
+import React from 'react';
   
+import {useDispatch, useSelector} from "react-redux"
+import { useNavigate } from 'react-router-dom';
+import { handleLoginFetch } from '../redux/auth/action';
+  const userInput={
+    email:"",
+    password:""
+  }
   export const Login=()=> {
+    const dispatch=useDispatch()
+    const [loginData, setLoginData]=React.useState(userInput);
+    const {email, password}=loginData
+    const {token}=useSelector(state=>state.Auth)
+    const navigate=useNavigate()
+
+    React.useEffect(()=>{
+      if(!!token){
+        navigate("/")
+      }
+      
+    },[token])
+    const handleOnChange=(e)=>{
+      const {name, value}=e.target
+      setLoginData(prev=>({...prev,[name]:value}))
+    }
+    const handleOnclick=()=>{
+      console.log(loginData)
+      dispatch(handleLoginFetch(loginData))
+    }
     return (
       <Flex
         minH={'100vh'}
@@ -35,11 +63,11 @@ import {
             <Stack spacing={4}>
               <FormControl id="email">
                 <FormLabel>Email address</FormLabel>
-                <Input type="email" />
+                <Input name="email" value={email} onChange={handleOnChange} type="email" />
               </FormControl>
               <FormControl id="password">
                 <FormLabel>Password</FormLabel>
-                <Input type="password" />
+                <Input name="password" value={password} onChange={handleOnChange} type="password" />
               </FormControl>
               <Stack spacing={10}>
                 <Stack
@@ -50,6 +78,7 @@ import {
                   <Link color={'blue.400'}>Forgot password?</Link>
                 </Stack>
                 <Button
+                onClick={handleOnclick}
                   bg={'blue.400'}
                   color={'white'}
                   _hover={{

@@ -1,10 +1,11 @@
 import React from 'react'
 import { Box, Button } from '@chakra-ui/react'
 import { Link, useNavigate } from 'react-router-dom'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { handleLogOut } from '../redux/auth/action'
 export const NavBar = () => {
-
-    const {token}=useSelector(state=>state.Auth)
+    const dispatch=useDispatch();
+    const {token}=useSelector(state=>state.Auth);
     const navigate=useNavigate();
 
     React.useEffect(()=>{
@@ -13,13 +14,14 @@ export const NavBar = () => {
         }
     },[token])
 
+
   return (
     <div style={{display:"flex", justifyContent:"space-around", padding:"20px"}}>
-        <Box bg='tomato' w='100%' p={4} color='white'>
+        <Box bg='tomato' w='100%' p={4} color='white' display={"flex"} justifyContent="space-between">
             <Link to="/">DashBoard</Link>
             {
-                !!token?(<Button>Log Out</Button>):(<><Link to="/login"></Link>
-            <Link to="/SignUp"></Link></>)
+                !!token?(<Button onClick={ ()=>dispatch(handleLogOut()) } >Log Out</Button>):(<><div><Link to="/login">Login</Link>
+            /<Link to="/signUp">Sign Up</Link></div></>)
             }
                        
         </Box>

@@ -1,4 +1,4 @@
-import { LOGIN_LOADING, LOGIN_SUCCESS, LOGIN_ERR, USER_PROFILE_LOADING, USER_PROFILE_SUCCESS, USER_PROFILE_ERR, USER_REGISTRATION_LOADING, USER_REGISTRATION_SUCCESS, USER_REGISTRATION_ERR }  from "./actiontypes";
+import { LOGIN_LOADING, LOGIN_SUCCESS, LOGIN_ERR, USER_PROFILE_LOADING, USER_PROFILE_SUCCESS, USER_PROFILE_ERR, USER_REGISTRATION_LOADING, USER_REGISTRATION_SUCCESS, USER_REGISTRATION_ERR, LOG_OUT }  from "./actiontypes";
 
 export const handleLoginLoading=()=>{
 return {
@@ -54,10 +54,17 @@ export const handleProfileLoading=()=>{
     }
     }
 
+    export const handleLogOut=()=>{
+        return{
+            type:LOG_OUT
+        }
+    }
+
 
     export const handleLoginFetch=(data)=>(dispatch)=>{
+        console.log(data)
         dispatch(handleLoginLoading())
-        fetch(``,{
+        fetch(`https://reqres.in/api/login`,{
             method:"POST",
             body:JSON.stringify(data),
             headers:{
@@ -65,14 +72,15 @@ export const handleProfileLoading=()=>{
             }
         })
         .then(res=>res.json())
-        .then(data=>dispatch(handleLoginSuccess(data.token)))
+        .then(data=>{dispatch(handleLoginSuccess(data.token))
+        dispatch(handleProfileFetch())})
         .catch(err=>dispatch(handleLoginErr()))
     }
 
     
     export const handleRegistrationFetch=(data)=>(dispatch)=>{
         dispatch(handleRegistrationLoading())
-        fetch(``,{
+        fetch(`https://reqres.in/api/register`,{
             method:"POST",
             body:JSON.stringify(data),
             headers:{
@@ -80,14 +88,15 @@ export const handleProfileLoading=()=>{
             }
         })
         .then(res=>res.json())
-        .then(data=>dispatch(handleRegistrationSuccess(data.token)))
+        .then(data=>{dispatch(handleRegistrationSuccess(data.token))
+            dispatch(handleProfileFetch())})
         .catch(err=>dispatch(handleRegistrationErr()))
     }
 
 
     export const handleProfileFetch=()=>(dispatch)=>{
         dispatch(handleProfileLoading())
-        fetch(``)
+        fetch(`https://reqres.in/api/users/2`)
         .then(res=>res.json())
         .then(data=>dispatch(handleProfileSuccess(data)))
         .catch(err=>dispatch(handleProfileErr()))

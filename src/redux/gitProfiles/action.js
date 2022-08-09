@@ -18,11 +18,11 @@ const handleGitUserSuccess=(payload)=>{
 }
 
 
-export const handleGitUserFetch=(data)=>(dispatch)=>{
+export const handleGitUserFetch=(searchKey)=>(dispatch)=>{
 dispatch(handleGitUserLoading())
-fetch(``)
+fetch(`https://api.github.com/search/users?q=${searchKey}`)
 .then(res=>res.json())
-.then(data=>dispatch(handleGitUserSuccess(data)))
+.then(data=>dispatch(handleGitUserSuccess(data.items)))
 .catch(err=>dispatch(handleGitUserErr()))
 }
 
